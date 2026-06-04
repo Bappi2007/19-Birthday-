@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Challenge 🎮</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Satisfy&family=Dancing+Script:wght@600;700&family=Lato:wght@300;400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -359,6 +360,42 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
+  /* ===== FEEDBACK BOX ===== */
+  .feedback-section {
+    max-width: 480px; width: 100%;
+    background: rgba(5,12,35,0.8); backdrop-filter: blur(16px);
+    border: 1px solid rgba(79,195,247,0.18); border-radius: 20px;
+    padding: 36px 36px 32px; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,40,0.5);
+    animation: feedbackIn 0.8s cubic-bezier(.22,1,.36,1) 0.6s both;
+    position: relative; overflow: hidden;
+  }
+  .feedback-section::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(79,195,247,0.04) 0%,transparent 60%); pointer-events:none; }
+  @keyframes feedbackIn { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+  .feedback-title { font-family:'Dancing Script',cursive; font-size:26px; color:var(--pale); margin-bottom:6px; }
+  .feedback-sub { font-size:12px; letter-spacing:3px; text-transform:uppercase; color:rgba(79,195,247,0.5); margin-bottom:22px; display:block; }
+  .feedback-textarea {
+    width:100%; min-height:110px; padding:14px 16px;
+    background:rgba(10,20,60,0.7); border:1.5px solid rgba(79,195,247,0.25); border-radius:12px;
+    color:rgba(200,220,255,0.9); font-family:'Courier Prime',monospace; font-size:14px; line-height:1.6;
+    resize:vertical; outline:none; transition:border-color 0.3s,box-shadow 0.3s; margin-bottom:14px;
+  }
+  .feedback-textarea:focus { border-color:var(--accent); box-shadow:0 0 16px rgba(79,195,247,0.15); }
+  .feedback-textarea::placeholder { color:rgba(100,130,180,0.5); }
+  .feedback-send-btn {
+    width:100%; padding:14px; border-radius:12px;
+    border:1.5px solid rgba(79,195,247,0.35);
+    background:linear-gradient(135deg,rgba(21,101,192,0.65),rgba(13,59,140,0.45));
+    color:var(--pale); font-family:'Lato',sans-serif; font-size:12px; letter-spacing:4px; text-transform:uppercase;
+    cursor:pointer; transition:all 0.3s;
+  }
+  .feedback-send-btn:hover { background:linear-gradient(135deg,rgba(21,101,192,0.9),rgba(13,100,200,0.7)); box-shadow:0 0 25px rgba(79,195,247,0.3); transform:translateY(-2px); }
+  .feedback-send-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+  .feedback-status { margin-top:12px; font-size:13px; letter-spacing:1px; min-height:20px; }
+  .feedback-status.success { color:#66bb6a; }
+  .feedback-status.error-msg { color:#ef9a9a; }
+  .feedback-status.sending { color:rgba(79,195,247,0.7); }
+
   /* Confetti pieces */
   .confetti-piece {
     position: fixed;
@@ -389,12 +426,12 @@
     <div class="hint-box">
       <span class="hint-label">📜 The Hint</span>
       <div class="hint-text">
-        I was born in a special year —<br>
-        the same year <strong>you</strong> were born.<br><br>
-        A year that holds all your memories,<br>
-        your very first breath,<br>
-        your very first smile.<br><br>
-        <strong>What year is it?</strong><br>
+        Welcome to the Vault,<strong> Anshu! </strong> To unlock your birthday surprise, you need to crunch some numbers. Solve these four equations to get the passcode: <br>
+<strong>Digit 1: </strong>​The number of letters in Moti minus the number of letters in Das.<br>
+<strong>Digit 2: </strong>​The number of letters in Anshika minus the number of letters in Moti.<br>
+<strong>Digit 3: </strong>​The last digit of your birth year (2007) minus the number of letters in Biryani.<br>
+<strong>Digit 4: </strong>​Your birth date (13) minus the number of letters in Anshika.<br>
+        <strong>What numbers is it?</strong><br>
         <span style="color:rgba(79,195,247,0.6);font-size:13px;">→ Enter a 4-digit number</span>
       </div>
     </div>
@@ -479,10 +516,35 @@
     </a>
   </div>
 
+  <!-- FEEDBACK BOX (shows after reward) -->
+  <div class="feedback-section" id="feedbackSection" style="display:none;">
+    <div class="feedback-title">Leave a Message 💌</div>
+    <span class="feedback-sub">✦ send your thoughts ✦</span>
+    <textarea
+      class="feedback-textarea"
+      id="feedbackText"
+      placeholder="Write something sweet... or anything on your heart 🌙"
+    ></textarea>
+    <button class="feedback-send-btn" id="feedbackBtn" onclick="sendFeedback()">
+      ✦ Send Message ✦
+    </button>
+    <div class="feedback-status" id="feedbackStatus"></div>
+  </div>
+  </div>
+
+
 </div>
 
 <script>
-  const ANSWER = '2007';
+  // ===== EmailJS Setup =====
+  // NOTE: Replace these with your real EmailJS credentials after setup (see instructions below)
+  const EMAILJS_PUBLIC_KEY  = 'AILFCXSayeRcWjalZ';
+  const EMAILJS_SERVICE_ID  = 'service_v1ufol9';
+  const EMAILJS_TEMPLATE_FEEDBACK = 'template_ln5nic8'; // feedback from her
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  const ANSWER = '1306';
   let attempts = 0;
   const maxAttempts = 3;
 
@@ -491,25 +553,17 @@
   const gameCard = document.getElementById('gameCard');
   const goneScreen = document.getElementById('goneScreen');
   const rewardScreen = document.getElementById('rewardScreen');
+  const feedbackSection = document.getElementById('feedbackSection');
 
-  // Limit input to 4 digits
   input.addEventListener('input', () => {
     const val = input.value.replace(/[^0-9]/g, '').slice(0, 4);
     input.value = val;
   });
-
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkAnswer();
-  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') checkAnswer(); });
 
   function updateDots() {
     for (let i = 0; i < maxAttempts; i++) {
-      const dot = document.getElementById('dot' + i);
-      if (i < maxAttempts - attempts) {
-        dot.classList.remove('used');
-      } else {
-        dot.classList.add('used');
-      }
+      document.getElementById('dot' + i).classList.toggle('used', i >= maxAttempts - attempts);
     }
   }
 
@@ -520,27 +574,59 @@
       setTimeout(() => input.classList.remove('error'), 600);
       return;
     }
-
     if (val === ANSWER) {
-      // CORRECT!
       input.style.borderColor = '#66bb6a';
       input.style.boxShadow = '0 0 20px rgba(102,187,106,0.4)';
       submitBtn.disabled = true;
-      setTimeout(() => showReward(), 500);
+      setTimeout(() => showReward(), 600);
     } else {
-      // WRONG
       attempts++;
       updateDots();
       input.classList.add('error');
       setTimeout(() => input.classList.remove('error'), 600);
       input.value = '';
-
       if (attempts >= maxAttempts) {
         submitBtn.disabled = true;
         input.disabled = true;
         setTimeout(() => showGone(), 800);
       }
     }
+  }
+
+  function sendFeedback() {
+    const text = document.getElementById('feedbackText').value.trim();
+    const btn = document.getElementById('feedbackBtn');
+    const status = document.getElementById('feedbackStatus');
+
+    if (!text) {
+      status.className = 'feedback-status error-msg';
+      status.textContent = '✗ Please write something first 💙';
+      return;
+    }
+
+    btn.disabled = true;
+    status.className = 'feedback-status sending';
+    status.textContent = '✦ Sending your message...';
+
+    const now = new Date();
+    const timeStr = now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'full', timeStyle: 'short' });
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_FEEDBACK, {
+      to_email: 'bishalkumandal777@proton.me',
+      to_name: 'Bishal',
+      feedback_message: text,
+      sent_at: timeStr
+    }).then(() => {
+      status.className = 'feedback-status success';
+      status.textContent = '✓ Message sent! Bishal will read it 💙';
+      document.getElementById('feedbackText').value = '';
+      document.getElementById('feedbackText').disabled = true;
+    }).catch(err => {
+      btn.disabled = false;
+      status.className = 'feedback-status error-msg';
+      status.textContent = '✗ Could not send. Check your connection.';
+      console.error('Feedback email error:', err);
+    });
   }
 
   function showReward() {
@@ -550,6 +636,7 @@
     setTimeout(() => {
       gameCard.style.display = 'none';
       rewardScreen.style.display = 'flex';
+      feedbackSection.style.display = 'block';
       makeConfetti();
       setTimeout(makeConfetti, 1500);
       setTimeout(makeConfetti, 3000);
@@ -584,4 +671,3 @@
   updateDots();
 </script>
 </body>
-</html>
