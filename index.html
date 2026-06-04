@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Something Special 🎀</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Satisfy&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a0e1a;
+    --deep: #060912;
+    --blue1: #1a2a5e;
+    --blue2: #0d3b8c;
+    --blue3: #1565c0;
+    --accent: #4fc3f7;
+    --pale: #b3e5fc;
+    --white: #f0f8ff;
+    --gold: #ffd54f;
+  }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 20% 50%, #0d2060 0%, #060912 40%, #001133 70%, #000510 100%);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Star field */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 55%, rgba(180,220,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(180,220,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 75%, rgba(200,230,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 92% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 42% 90%, rgba(180,220,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 15%, rgba(255,255,255,0.5) 0%, transparent 100%);
+  }
+
+  /* Floating particles */
+  .particle {
+    position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 60px;
+  }
+
+  /* ===== LEFT: PHOTO FRAME ===== */
+  .photo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    animation: fadeSlideLeft 1.2s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes fadeSlideLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .ribbon-bow {
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    z-index: 10;
+    animation: bobble 3s ease-in-out infinite;
+  }
+  @keyframes bobble {
+    0%,100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.08); }
+  }
+
+  /* SVG Ribbon Bow */
+  .ribbon-bow svg { filter: drop-shadow(0 4px 12px rgba(30,100,255,0.5)); }
+
+  /* Instant film frame */
+  .film-frame {
+    width: 220px;
+    background: #f5f0e8;
+    border-radius: 6px;
+    padding: 14px 14px 40px 14px;
+    box-shadow:
+      0 0 0 1px #c8c0a8,
+      0 8px 30px rgba(0,0,20,0.6),
+      0 2px 6px rgba(0,0,20,0.4),
+      inset 0 1px 0 rgba(255,255,240,0.8);
+    position: relative;
+    transform: rotate(-2deg);
+    transition: transform 0.4s ease;
+  }
+  .film-frame:hover { transform: rotate(0deg) scale(1.02); }
+
+  .film-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(255,255,240,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .film-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 3px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a1a4a 0%, #0d2875 40%, #1565c0 80%, #0288d1 100%);
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+  }
+
+  /* Teddy bear SVG inside photo */
+  .film-photo svg {
+    width: 100%; height: 100%;
+  }
+
+  .film-label {
+    text-align: center;
+    padding-top: 10px;
+    font-family: 'Satisfy', cursive;
+    color: #4a3f2a;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* Decorative tape pieces */
+  .tape {
+    position: absolute;
+    width: 48px; height: 18px;
+    background: rgba(220,210,180,0.55);
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .tape-tl { top: -9px; left: 20px; transform: rotate(-8deg); }
+  .tape-tr { top: -9px; right: 20px; transform: rotate(8deg); }
+
+  /* Teddy bear beside frame */
+  .teddy-beside {
+    position: absolute;
+    right: -80px;
+    bottom: -10px;
+    animation: teddySway 4s ease-in-out infinite;
+  }
+  @keyframes teddySway {
+    0%,100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg) translateY(-5px); }
+  }
+
+  /* ===== RIGHT: PASSWORD PAD ===== */
+  .password-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    animation: fadeSlideRight 1.2s cubic-bezier(.22,1,.36,1) 0.2s both;
+  }
+  @keyframes fadeSlideRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .pad-title {
+    font-family: 'Satisfy', cursive;
+    font-size: 28px;
+    color: var(--pale);
+    text-align: center;
+    text-shadow: 0 0 30px rgba(79,195,247,0.6);
+    line-height: 1.4;
+  }
+  .pad-title span {
+    color: var(--accent);
+    font-size: 14px;
+    display: block;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  /* PIN display dots */
+  .pin-display {
+    display: flex; gap: 16px;
+  }
+  .pin-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(79,195,247,0.6);
+    background: transparent;
+    transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 0 8px rgba(79,195,247,0.2);
+  }
+  .pin-dot.filled {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 16px rgba(79,195,247,0.7), 0 0 30px rgba(79,195,247,0.3);
+    transform: scale(1.15);
+  }
+  .pin-dot.error {
+    background: #ef5350;
+    border-color: #ef5350;
+    box-shadow: 0 0 16px rgba(239,83,80,0.7);
+    animation: shake 0.5s ease;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  /* Numpad */
+  .numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    position: relative;
+  }
+
+  .num-btn {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(79,195,247,0.3);
+    background: rgba(13,59,140,0.25);
+    backdrop-filter: blur(8px);
+    color: var(--white);
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,30,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    letter-spacing: 1px;
+  }
+  .num-btn:hover {
+    background: rgba(21,101,192,0.5);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(79,195,247,0.3), 0 4px 15px rgba(0,0,30,0.4);
+    transform: translateY(-2px);
+  }
+  .num-btn:active { transform: scale(0.94) translateY(0); }
+  .num-btn.special {
+    font-size: 14px;
+    letter-spacing: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+  }
+  .num-btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(79,195,247,0.4);
+    transform: scale(0);
+    animation: rippleAnim 0.5s linear;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* Enter button */
+  .enter-btn {
+    grid-column: span 3;
+    width: 100%; height: 48px;
+    border-radius: 24px;
+    border: 1.5px solid rgba(79,195,247,0.5);
+    background: linear-gradient(135deg, rgba(21,101,192,0.6), rgba(13,59,140,0.4));
+    color: var(--pale);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,30,0.4);
+    margin-top: 4px;
+  }
+  .enter-btn:hover {
+    background: linear-gradient(135deg, rgba(21,101,192,0.8), rgba(13,100,200,0.6));
+    box-shadow: 0 0 25px rgba(79,195,247,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ===== ERROR MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,5,20,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+  .modal-box {
+    background: linear-gradient(135deg, #0a1835, #0d2060);
+    border: 1px solid rgba(239,83,80,0.5);
+    border-radius: 16px;
+    padding: 40px 48px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(239,83,80,0.2), 0 20px 60px rgba(0,0,30,0.6);
+    transform: scale(0.8) translateY(20px);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    max-width: 320px;
+  }
+  .modal-overlay.show .modal-box { transform: scale(1) translateY(0); }
+
+  .modal-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    color: #ef9a9a;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .modal-text {
+    color: rgba(180,200,255,0.7);
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+  .modal-close {
+    margin-top: 28px;
+    padding: 10px 32px;
+    border-radius: 20px;
+    border: 1px solid rgba(239,83,80,0.5);
+    background: rgba(239,83,80,0.1);
+    color: #ef9a9a;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .modal-close:hover { background: rgba(239,83,80,0.25); }
+
+  /* Glow orbs */
+  .orb {
+    position: fixed; border-radius: 50%; pointer-events: none; filter: blur(80px); z-index: 0;
+  }
+  .orb1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(21,101,192,0.25) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+  .orb2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(4,100,200,0.2) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation: orbFloat 10s ease-in-out 2s infinite;
+  }
+  @keyframes orbFloat {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(30px, 30px); }
+  }
+
+  @media (max-width: 700px) {
+    .page { flex-direction: column; gap: 40px; padding: 30px 20px; }
+    .teddy-beside { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- Floating particles -->
+<script>
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 1;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background: rgba(${Math.random()>0.5?'79,195,247':'150,200,255'},${Math.random()*0.5+0.2});
+      animation-duration:${Math.random()*15+10}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    document.body.appendChild(p);
+  }
+</script>
+
+<div class="page">
+
+  <!-- LEFT: PHOTO FRAME SECTION -->
+  <div class="photo-section">
+
+    <!-- Blue ribbon bow top-right of frame -->
+    <div class="ribbon-bow">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left loop -->
+        <ellipse cx="22" cy="28" rx="18" ry="11" transform="rotate(-30 22 28)" fill="#1565c0" stroke="#4fc3f7" stroke-width="1.5"/>
+        <ellipse cx="22" cy="28" rx="12" ry="6" transform="rotate(-30 22 28)" fill="#0d47a1" opacity="0.6"/>
+        <!-- Right loop -->
+        <ellipse cx="48" cy="28" rx="18" ry="11" transform="rotate(30 48 28)" fill="#1565c0" stroke="#4fc3f7" stroke-width="1.5"/>
+        <ellipse cx="48" cy="28" rx="12" ry="6" transform="rotate(30 48 28)" fill="#0d47a1" opacity="0.6"/>
+        <!-- Center knot -->
+        <ellipse cx="35" cy="33" rx="8" ry="7" fill="#1976d2" stroke="#4fc3f7" stroke-width="1.5"/>
+        <ellipse cx="35" cy="33" rx="4" ry="3.5" fill="#42a5f5"/>
+        <!-- Ribbon tails -->
+        <path d="M28 38 Q22 52 18 58" stroke="#1565c0" stroke-width="5" stroke-linecap="round"/>
+        <path d="M28 38 Q22 52 18 58" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <path d="M42 38 Q48 52 52 58" stroke="#1565c0" stroke-width="5" stroke-linecap="round"/>
+        <path d="M42 38 Q48 52 52 58" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <!-- Shimmer on loops -->
+        <ellipse cx="18" cy="24" rx="4" ry="2" transform="rotate(-30 18 24)" fill="rgba(255,255,255,0.25)"/>
+        <ellipse cx="52" cy="24" rx="4" ry="2" transform="rotate(30 52 24)" fill="rgba(255,255,255,0.25)"/>
+      </svg>
+    </div>
+
+    <!-- Instant film frame -->
+    <div class="film-frame">
+      <div class="tape tape-tl"></div>
+      <div class="tape tape-tr"></div>
+      <div class="film-photo">
+        <!-- Teddy bear graphic in white & blue -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stop-color="#1a4a9a"/>
+              <stop offset="100%" stop-color="#081540"/>
+            </radialGradient>
+            <radialGradient id="bodyGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#c5d8f5"/>
+            </radialGradient>
+            <radialGradient id="tummyGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#e3f0ff"/>
+              <stop offset="100%" stop-color="#b0cdf5"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="200" fill="url(#bg)"/>
+          <!-- Stars in background -->
+          <circle cx="20" cy="20" r="1.2" fill="rgba(255,255,255,0.6)"/>
+          <circle cx="175" cy="30" r="1" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="160" cy="170" r="1.5" fill="rgba(255,255,255,0.4)"/>
+          <circle cx="30" cy="165" r="1" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="185" cy="100" r="1.2" fill="rgba(255,255,255,0.6)"/>
+          <circle cx="10" cy="100" r="1" fill="rgba(255,255,255,0.4)"/>
+
+          <!-- Ears -->
+          <circle cx="78" cy="68" r="18" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <circle cx="78" cy="68" r="10" fill="#b8d0f0"/>
+          <circle cx="122" cy="68" r="18" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <circle cx="122" cy="68" r="10" fill="#b8d0f0"/>
+          <!-- Body -->
+          <ellipse cx="100" cy="148" rx="36" ry="38" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <!-- Tummy -->
+          <ellipse cx="100" cy="152" rx="22" ry="24" fill="url(#tummyGrad)"/>
+          <!-- Head -->
+          <circle cx="100" cy="97" r="36" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <!-- Face shadow -->
+          <ellipse cx="100" cy="108" rx="22" ry="14" fill="rgba(160,190,230,0.3)"/>
+          <!-- Snout -->
+          <ellipse cx="100" cy="108" rx="14" ry="10" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.8"/>
+          <!-- Nose -->
+          <ellipse cx="100" cy="103" rx="5" ry="3.5" fill="#5b9bd5"/>
+          <!-- Nostrils -->
+          <circle cx="97.5" cy="104" r="1.2" fill="rgba(30,60,120,0.5)"/>
+          <circle cx="102.5" cy="104" r="1.2" fill="rgba(30,60,120,0.5)"/>
+          <!-- Mouth -->
+          <path d="M94 110 Q100 116 106 110" fill="none" stroke="#5b9bd5" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Eyes -->
+          <circle cx="88" cy="90" r="6" fill="#2a5fad"/>
+          <circle cx="112" cy="90" r="6" fill="#2a5fad"/>
+          <circle cx="88" cy="90" r="3.5" fill="#1a3a80"/>
+          <circle cx="112" cy="90" r="3.5" fill="#1a3a80"/>
+          <circle cx="89.5" cy="88.5" r="1.8" fill="white"/>
+          <circle cx="113.5" cy="88.5" r="1.8" fill="white"/>
+          <!-- Cheeks -->
+          <circle cx="80" cy="102" r="7" fill="rgba(100,160,240,0.25)"/>
+          <circle cx="120" cy="102" r="7" fill="rgba(100,160,240,0.25)"/>
+          <!-- Arms -->
+          <ellipse cx="66" cy="148" rx="12" ry="22" transform="rotate(-20 66 148)" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <ellipse cx="134" cy="148" rx="12" ry="22" transform="rotate(20 134 148)" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <!-- Paws -->
+          <circle cx="56" cy="162" r="10" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.8"/>
+          <circle cx="144" cy="162" r="10" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.8"/>
+          <!-- Paw toes -->
+          <circle cx="51" cy="157" r="3" fill="#c5d8f5"/>
+          <circle cx="56" cy="154" r="3" fill="#c5d8f5"/>
+          <circle cx="61" cy="157" r="3" fill="#c5d8f5"/>
+          <circle cx="139" cy="157" r="3" fill="#c5d8f5"/>
+          <circle cx="144" cy="154" r="3" fill="#c5d8f5"/>
+          <circle cx="149" cy="157" r="3" fill="#c5d8f5"/>
+          <!-- Legs -->
+          <ellipse cx="84" cy="180" rx="13" ry="14" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <ellipse cx="116" cy="180" rx="13" ry="14" fill="url(#bodyGrad)" stroke="#a0bce0" stroke-width="1"/>
+          <!-- Feet -->
+          <ellipse cx="80" cy="192" rx="14" ry="7" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.8"/>
+          <ellipse cx="120" cy="192" rx="14" ry="7" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.8"/>
+          <!-- Little bow on teddy -->
+          <path d="M90 132 Q100 128 110 132" fill="none" stroke="#4fc3f7" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="100" cy="130" r="4" fill="#1565c0" stroke="#4fc3f7" stroke-width="1.2"/>
+          <path d="M92 130 L86 125 M92 130 L86 135" stroke="#1565c0" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M108 130 L114 125 M108 130 L114 135" stroke="#1565c0" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="film-label">✦ with love ✦</div>
+    </div>
+
+    <!-- Teddy bear beside (larger, decorative) -->
+    <div class="teddy-beside">
+      <svg width="90" height="110" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="b2" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#c5d8f5"/>
+          </radialGradient>
+        </defs>
+        <!-- Ears -->
+        <circle cx="29" cy="29" r="9" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <circle cx="29" cy="29" r="5" fill="#b8d0f0"/>
+        <circle cx="61" cy="29" r="9" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <circle cx="61" cy="29" r="5" fill="#b8d0f0"/>
+        <!-- Head -->
+        <circle cx="45" cy="42" r="22" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <!-- Snout -->
+        <ellipse cx="45" cy="49" rx="9" ry="6" fill="#d8eaff" stroke="#a0bce0" stroke-width="0.6"/>
+        <!-- Nose -->
+        <ellipse cx="45" cy="46" rx="3.5" ry="2.5" fill="#5b9bd5"/>
+        <!-- Mouth -->
+        <path d="M40 51 Q45 56 50 51" fill="none" stroke="#5b9bd5" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="37" cy="37" r="4.5" fill="#2a5fad"/>
+        <circle cx="53" cy="37" r="4.5" fill="#2a5fad"/>
+        <circle cx="37" cy="37" r="2.5" fill="#1a3a80"/>
+        <circle cx="53" cy="37" r="2.5" fill="#1a3a80"/>
+        <circle cx="37.8" cy="36.2" r="1.2" fill="white"/>
+        <circle cx="53.8" cy="36.2" r="1.2" fill="white"/>
+        <!-- Body -->
+        <ellipse cx="45" cy="82" rx="22" ry="24" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <ellipse cx="45" cy="85" rx="13" ry="15" fill="#d8eaff"/>
+        <!-- Arms -->
+        <ellipse cx="24" cy="80" rx="8" ry="15" transform="rotate(-15 24 80)" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <ellipse cx="66" cy="80" rx="8" ry="15" transform="rotate(15 66 80)" fill="url(#b2)" stroke="#a0bce0" stroke-width="0.8"/>
+        <!-- Heart in hand -->
+        <path d="M18 95 C18 92 14 90 14 94 C14 97 18 100 18 100 C18 100 22 97 22 94 C22 90 18 92 18 95Z" fill="#ef5350" opacity="0.8"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: PASSWORD SECTION -->
+  <div class="password-section">
+    <div class="pad-title">
+      <span>✦ secret entry ✦</span>
+      Enter the Magic Code
+    </div>
+
+    <div class="pin-display">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+
+    <div class="numpad">
+      <button class="num-btn" onclick="pressNum('1')">1</button>
+      <button class="num-btn" onclick="pressNum('2')">2</button>
+      <button class="num-btn" onclick="pressNum('3')">3</button>
+      <button class="num-btn" onclick="pressNum('4')">4</button>
+      <button class="num-btn" onclick="pressNum('5')">5</button>
+      <button class="num-btn" onclick="pressNum('6')">6</button>
+      <button class="num-btn" onclick="pressNum('7')">7</button>
+      <button class="num-btn" onclick="pressNum('8')">8</button>
+      <button class="num-btn" onclick="pressNum('9')">9</button>
+      <button class="num-btn special" onclick="clearPin()">CLR</button>
+      <button class="num-btn" onclick="pressNum('0')">0</button>
+      <button class="num-btn special" onclick="backspace()">⌫</button>
+      <button class="enter-btn" onclick="checkPin()">E N T E R</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ERROR MODAL -->
+<div class="modal-overlay" id="errorModal">
+  <div class="modal-box">
+    <span class="modal-icon">🔒</span>
+    <div class="modal-title">Wrong Password</div>
+    <div class="modal-text">That's not quite right.<br>Try again, love! 💙</div>
+    <button class="modal-close" onclick="closeModal()">TRY AGAIN</button>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = '2007';
+  let entered = '';
+
+  function rippleEffect(btn, e) {
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+  }
+
+  document.querySelectorAll('.num-btn').forEach(btn => {
+    btn.addEventListener('click', e => rippleEffect(btn, e));
+  });
+
+  function updateDots() {
+    for (let i = 0; i < 4; i++) {
+      const d = document.getElementById('d' + i);
+      d.classList.toggle('filled', i < entered.length);
+      d.classList.remove('error');
+    }
+  }
+
+  function pressNum(n) {
+    if (entered.length < 4) {
+      entered += n;
+      updateDots();
+      if (entered.length === 4) setTimeout(checkPin, 150);
+    }
+  }
+
+  function backspace() {
+    entered = entered.slice(0, -1);
+    updateDots();
+  }
+
+  function clearPin() {
+    entered = '';
+    updateDots();
+  }
+
+  function checkPin() {
+    if (entered.length < 4) return;
+    if (entered === PASSWORD) {
+      document.querySelectorAll('.pin-dot').forEach(d => {
+        d.style.background = '#81c784';
+        d.style.borderColor = '#81c784';
+        d.style.boxShadow = '0 0 16px rgba(129,199,132,0.8)';
+      });
+      setTimeout(() => { window.location.href = 'birthday.html'; }, 700);
+    } else {
+      document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('error'));
+      document.getElementById('errorModal').classList.add('show');
+      setTimeout(() => { entered = ''; updateDots(); }, 600);
+    }
+  }
+
+  function closeModal() {
+    document.getElementById('errorModal').classList.remove('show');
+  }
+
+  // Keyboard support
+  document.addEventListener('keydown', e => {
+    if (e.key >= '0' && e.key <= '9') pressNum(e.key);
+    else if (e.key === 'Backspace') backspace();
+    else if (e.key === 'Enter') checkPin();
+    else if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
