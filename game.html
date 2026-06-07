@@ -23,6 +23,17 @@
     font-family: 'Lato', sans-serif;
     overflow-x: hidden;
   }
+  .unstyled-link {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: inherit; /* Optional: keeps the standard text cursor instead of the pointer hand */
+}
+.small-text{
+  font-size : 10px;
+}
+.center-text{
+  text-align : center;
+}
   .stars {
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
@@ -505,9 +516,12 @@
 
     <div class="reward-msg">
       You knew it all along — because that year is <em>yours</em>.<br><br>
-      The year the world became a little more wonderful.<br>
-      The year <em>you</em> arrived. 🌟<br><br>
-      Happy Birthday, beautiful soul.<br>
+     Make youe wish in massage box below ! 🌟<br>
+      <em>Your</em> Birthday gift will Arive very <strong>soon</strong> 🎁<br><br>
+       <span class="center-text"> & </span> <br>
+      Happy Birthday, beautiful <em><a href="https://www.instagram.com/reel/C8UTRxdy_Rf/?igsh=NWk3OTA2YzVpbHE=" , class="unstyled-link">CAPIBARA</a></em> .<br>
+      <div class="small-text">To know more clik on <em><a href="https://www.instagram.com/reel/C8UTRxdy_Rf/?igsh=NWk3OTA2YzVpbHE=" , class="unstyled-link">CAPIBARA</a></em> </div><br>
+      Collect your gift from your friends <br>
       Your gift is knowing how <em>loved</em> you truly are. 💙
     </div>
 
@@ -519,11 +533,11 @@
   <!-- FEEDBACK BOX (shows after reward) -->
   <div class="feedback-section" id="feedbackSection" style="display:none;">
     <div class="feedback-title">Leave a Message 💌</div>
-    <span class="feedback-sub">✦ send your thoughts ✦</span>
+    <span class="feedback-sub">✦ send your paigham ✦</span>
     <textarea
       class="feedback-textarea"
       id="feedbackText"
-      placeholder="Write something sweet... or anything on your heart 🌙"
+      placeholder="Write something sweet or sour... or anything on your mind 🌙"
     ></textarea>
     <button class="feedback-send-btn" id="feedbackBtn" onclick="sendFeedback()">
       ✦ Send Message ✦
